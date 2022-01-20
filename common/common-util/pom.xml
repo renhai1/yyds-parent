@@ -13,7 +13,7 @@
     <version>1.0</version>
 
     <name>common-util</name>
-    <description>common-util</description>
+    <description>工具类模块</description>
 
     <dependencies>
         <dependency>
