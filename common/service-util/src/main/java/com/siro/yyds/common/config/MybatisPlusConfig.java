@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement //事务处理
 @Configuration
-@MapperScan("com.siro.*.mapper")
+@MapperScan("com.siro.yyds.*.mapper")
 public class MybatisPlusConfig {
 
     /**

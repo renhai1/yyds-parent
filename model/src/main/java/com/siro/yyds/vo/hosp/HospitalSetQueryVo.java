@@ -3,6 +3,9 @@ package com.siro.yyds.vo.hosp;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * 医院设置 条件查询vo
+ */
 @Data
 public class HospitalSetQueryVo {
 

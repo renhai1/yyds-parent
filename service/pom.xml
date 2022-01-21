@@ -12,6 +12,9 @@
     <artifactId>service</artifactId>
     <packaging>pom</packaging>
     <description>api接口服务父节点</description>
+    <modules>
+        <module>service-hosp</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

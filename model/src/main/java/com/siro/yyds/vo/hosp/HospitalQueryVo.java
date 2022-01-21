@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 医院设置 条件查询vo
+ * 医院 条件查询vo
  */
 @Data
 @ApiModel(description = "Hospital")
