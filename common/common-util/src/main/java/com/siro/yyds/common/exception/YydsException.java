@@ -1,6 +1,6 @@
-package com.siro.common.exception;
+package com.siro.yyds.common.exception;
 
-import com.siro.common.result.ResultCodeEnum;
+import com.siro.yyds.common.result.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

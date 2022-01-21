@@ -1,6 +1,6 @@
-package com.siro.common.exception;
+package com.siro.yyds.common.exception;
 
-import com.siro.common.result.Result;
+import com.siro.yyds.common.result.Result;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

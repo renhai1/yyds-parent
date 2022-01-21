@@ -1,4 +1,4 @@
-package com.siro.common.util;
+package com.siro.yyds.common.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

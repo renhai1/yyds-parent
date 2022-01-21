@@ -1,8 +1,8 @@
-package com.siro.common.helper;
+package com.siro.yyds.common.helper;
 
 import com.alibaba.fastjson.JSONObject;
-import com.siro.common.util.HttpUtil;
-import com.siro.common.util.MD5;
+import com.siro.yyds.common.util.HttpUtil;
+import com.siro.yyds.common.util.MD5;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;

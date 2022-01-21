@@ -1,4 +1,4 @@
-package com.siro.common.result;
+package com.siro.yyds.common.result;
 
 import lombok.Getter;
 

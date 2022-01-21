@@ -1,4 +1,4 @@
-package com.siro.common.config;
+package com.siro.yyds.common.config;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;

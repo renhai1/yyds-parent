@@ -1,4 +1,4 @@
-package com.siro.common.config;
+package com.siro.yyds.common.config;
 
 /**
  * Redis配置类

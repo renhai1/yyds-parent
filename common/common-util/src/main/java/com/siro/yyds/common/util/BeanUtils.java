@@ -1,4 +1,4 @@
-package com.siro.common.util;
+package com.siro.yyds.common.util;
 
 /**
  * 实体bean copy工具类

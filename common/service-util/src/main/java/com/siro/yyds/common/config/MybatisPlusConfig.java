@@ -1,4 +1,4 @@
-package com.siro.common.config;
+package com.siro.yyds.common.config;
 
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
