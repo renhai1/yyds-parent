@@ -18,8 +18,6 @@ import lombok.Data;
 @ApiModel(description = "医院设置")
 @TableName("hospital_set")
 public class HospitalSet extends BaseEntity {
-	
-	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "医院名称")
 	@TableField("hosname")
@@ -45,6 +43,9 @@ public class HospitalSet extends BaseEntity {
 	@TableField("contacts_phone")
 	private String contactsPhone;
 
+	/**
+	 * 状态 1:可用 0：不可用
+	 */
 	@ApiModelProperty(value = "状态")
 	@TableField("status")
 	private Integer status;
