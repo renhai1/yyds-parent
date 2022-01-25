@@ -4,11 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
 /**
- * <p>
- * Dict
- * </p>
- *
- * @author qy
+ * 数据字典导出vo类
  */
 @Data
 public class DictEeVo {

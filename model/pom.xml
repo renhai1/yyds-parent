@@ -36,6 +36,7 @@
             <artifactId>springfox-swagger2</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!--easyexcel-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>

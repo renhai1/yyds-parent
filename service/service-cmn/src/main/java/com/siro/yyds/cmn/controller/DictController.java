@@ -7,7 +7,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -33,6 +35,30 @@ public class DictController {
     public Result findChildData(@PathVariable("id") Long id) {
         List<Dict> list = dictService.findChildData(id);
         return Result.ok(list);
+    }
+
+    /**
+     * 数据字典导出
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "数据字典导出")
+    @GetMapping("/exportData")
+    public Result exportData(HttpServletResponse response) {
+        dictService.exportData(response);
+        return Result.ok();
+    }
+
+    /**
+     * 数据字典导入
+     * @param file
+     * @return
+     */
+    @ApiOperation(value = "数据字典导入")
+    @PostMapping("/importData")
+    public Result importData(MultipartFile file) {
+        dictService.importData(file);
+        return Result.ok();
     }
 
 }
