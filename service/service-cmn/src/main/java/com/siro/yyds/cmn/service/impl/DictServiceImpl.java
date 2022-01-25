@@ -10,6 +10,8 @@ import com.siro.yyds.model.cmn.Dict;
 import com.siro.yyds.vo.cmn.DictEeVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +31,12 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Autowired
     private DictMapper dictMapper;
 
+    /**
+     * 根据数据id查询子数据列表
+     * @param id
+     * @return
+     */
+    @Cacheable(value = "dict", keyGenerator = "keyGenerator")
     @Override
     public List<Dict> findChildData(Long id) {
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
@@ -72,6 +80,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      * 数据字典导入
      * @param file
      */
+    @CacheEvict(value = "dict", allEntries = true)
     @Override
     public void importData(MultipartFile file) {
         try {
