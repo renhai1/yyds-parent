@@ -9,4 +9,10 @@ import com.siro.yyds.model.hosp.HospitalSet;
  */
 public interface HospitalSetService extends IService<HospitalSet> {
 
+    /**
+     * 获取签名key
+     * @param hoscode
+     * @return
+     */
+    String getSignKey(String hoscode);
 }

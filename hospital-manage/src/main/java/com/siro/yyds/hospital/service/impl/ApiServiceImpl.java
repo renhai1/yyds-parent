@@ -100,8 +100,9 @@ public class ApiServiceImpl implements ApiService {
         paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
         paramMap.put("sign", HttpRequestHelper.getSign(paramMap, this.getSignKey()));
 
+        System.out.println(paramMap.get("hoscode") + "=======11=====");
         JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveHospital");
-        System.out.println(respone.toJSONString());
+        System.out.println("response = " + respone.toJSONString());
 
         if(null != respone && 200 == respone.getIntValue("code")) {
             return true;
