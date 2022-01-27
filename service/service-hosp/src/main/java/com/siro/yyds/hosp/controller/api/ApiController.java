@@ -5,12 +5,16 @@ import com.siro.yyds.common.helper.HttpRequestHelper;
 import com.siro.yyds.common.result.Result;
 import com.siro.yyds.common.result.ResultCodeEnum;
 import com.siro.yyds.common.util.MD5;
+import com.siro.yyds.hosp.service.DepartmentService;
 import com.siro.yyds.hosp.service.HospitalService;
 import com.siro.yyds.hosp.service.HospitalSetService;
+import com.siro.yyds.model.hosp.Department;
 import com.siro.yyds.model.hosp.Hospital;
+import com.siro.yyds.vo.hosp.DepartmentQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +38,11 @@ public class ApiController {
     @Autowired
     private HospitalSetService hospitalSetService;
 
+    @Autowired
+    private DepartmentService departmentService;
+
     /**
-     * 上传 医院的基本信息与规则信息
+     * 上传医院的基本信息与规则信息
      * @return
      */
     @ApiOperation(value = "上传医院的基本信息与规则信息")
@@ -72,7 +79,7 @@ public class ApiController {
      */
     @ApiOperation(value = "查询医院")
     @PostMapping("/hospital/show")
-    public Result getHospital(HttpServletRequest request) {
+    public Result hospitalList(HttpServletRequest request) {
         Map<String, String[]> map = request.getParameterMap();
         Map<String, Object> paramMap = HttpRequestHelper.switchMap(map);
         String hoscode = (String) paramMap.get("hoscode");
@@ -84,6 +91,103 @@ public class ApiController {
         }
         Hospital hospital = hospitalService.getByHoscode(hoscode);
         return Result.ok(hospital);
+    }
+
+    /**
+     * 上传医院科室
+     * @param request
+     * @return
+     */
+    @ApiOperation(value = "上传医院科室")
+    @PostMapping("/saveDepartment")
+    public Result saveDepartment(HttpServletRequest request) {
+        Map<String, String[]> map = request.getParameterMap();
+        Map<String, Object> paramMap = HttpRequestHelper.switchMap(map);
+
+        // 获取医院系统传递过来的签名
+        String sign = (String) paramMap.get("sign");
+        // 获取医院传递过来的医院编码，查询数据库的签名
+        String hoscode = (String)paramMap.get("hoscode");
+        if(StringUtils.isEmpty(hoscode)) {
+            throw new YydsException(ResultCodeEnum.PARAM_ERROR);
+        }
+        String signKey = hospitalSetService.getSignKey(hoscode);
+        // 把数据库查询的签名进行MD5加密
+        String signMd5 = MD5.encrypt(signKey);
+        if (!sign.equals(signMd5)) {
+            throw new YydsException(ResultCodeEnum.SIGN_ERROR);
+        }
+
+        departmentService.save(paramMap);
+        return Result.ok();
+    }
+
+    /**
+     * 查询科室信息（带分页）
+     * @param request
+     * @return
+     */
+    @ApiOperation(value = "查询科室信息")
+    @PostMapping("/department/list")
+    public Result departmentList(HttpServletRequest request) {
+        Map<String, Object> paramMap = HttpRequestHelper.switchMap(request.getParameterMap());
+
+        // 获取医院系统传递过来的签名
+        String sign = (String) paramMap.get("sign");
+        // 获取医院传递过来的医院编码，查询数据库的签名
+        String hoscode = (String)paramMap.get("hoscode");
+        if(StringUtils.isEmpty(hoscode)) {
+            throw new YydsException(ResultCodeEnum.PARAM_ERROR);
+        }
+        String signKey = hospitalSetService.getSignKey(hoscode);
+        // 把数据库查询的签名进行MD5加密
+        String signMd5 = MD5.encrypt(signKey);
+        if (!sign.equals(signMd5)) {
+            throw new YydsException(ResultCodeEnum.SIGN_ERROR);
+        }
+
+        // 当前页 和 每页记录数
+        int page = StringUtils.isEmpty((String) paramMap.get("page")) ? 1 : Integer.parseInt((String) paramMap.get("page"));
+        int limit = StringUtils.isEmpty((String) paramMap.get("limit")) ? 1 : Integer.parseInt((String) paramMap.get("limit"));
+
+        DepartmentQueryVo departmentQueryVo = new DepartmentQueryVo();
+        departmentQueryVo.setHoscode(hoscode);
+
+        Page<Department> departmentPage =  departmentService.findPageDepartment(page, limit, departmentQueryVo);
+        return Result.ok(departmentPage);
+    }
+
+    /**
+     * 删除科室信息
+     * @param request
+     * @return
+     */
+    @ApiOperation(value = "删除科室信息")
+    @PostMapping("/department/remove")
+    public Result removeDepartment(HttpServletRequest request) {
+        Map<String, Object> paramMap = HttpRequestHelper.switchMap(request.getParameterMap());
+
+        // 获取医院系统传递过来的签名
+        String sign = (String) paramMap.get("sign");
+        // 获取医院传递过来的医院编码，查询数据库的签名
+        String hoscode = (String)paramMap.get("hoscode");
+        if(StringUtils.isEmpty(hoscode)) {
+            throw new YydsException(ResultCodeEnum.PARAM_ERROR);
+        }
+        String signKey = hospitalSetService.getSignKey(hoscode);
+        // 把数据库查询的签名进行MD5加密
+        String signMd5 = MD5.encrypt(signKey);
+        if (!sign.equals(signMd5)) {
+            throw new YydsException(ResultCodeEnum.SIGN_ERROR);
+        }
+
+        String depcode = (String) paramMap.get("depcode");
+        if (StringUtils.isEmpty(depcode)) {
+            throw new YydsException(ResultCodeEnum.PARAM_ERROR);
+        }
+
+        departmentService.removeDepartment(hoscode, depcode);
+        return Result.ok();
     }
 
 }

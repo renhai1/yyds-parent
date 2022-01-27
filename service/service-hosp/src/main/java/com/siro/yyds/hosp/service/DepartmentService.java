@@ -1,0 +1,36 @@
+package com.siro.yyds.hosp.service;
+
+import com.siro.yyds.model.hosp.Department;
+import com.siro.yyds.vo.hosp.DepartmentQueryVo;
+import org.springframework.data.domain.Page;
+
+import java.util.Map;
+
+/**
+ * @author starsea
+ * @date 2022-01-27
+ */
+public interface DepartmentService {
+
+    /**
+     * 保存科室信息
+     * @param paramMap
+     */
+    void save(Map<String, Object> paramMap);
+
+    /**
+     * 分页查询科室信息
+     * @param page
+     * @param limit
+     * @param departmentQueryVo
+     * @return
+     */
+    Page<Department> findPageDepartment(int page,int limit, DepartmentQueryVo departmentQueryVo);
+
+    /**
+     * 删除科室信息
+     * @param hoscode
+     * @param depcode
+     */
+    void removeDepartment(String hoscode, String depcode);
+}
