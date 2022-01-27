@@ -1,5 +1,7 @@
 package com.siro.yyds.hosp.service;
 
+import com.siro.yyds.model.hosp.Hospital;
+
 import java.util.Map;
 
 /**
@@ -12,4 +14,11 @@ public interface HospitalService {
      * @param paramMap
      */
     void save(Map<String, Object> paramMap);
+
+    /**
+     * 查询医院信息
+     * @param hoscode
+     * @return
+     */
+    Hospital getByHoscode(String hoscode);
 }
