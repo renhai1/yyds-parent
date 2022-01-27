@@ -27,7 +27,6 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
      */
     @Override
     public String getSignKey(String hoscode) {
-        System.out.println("hoscode = " + hoscode);
         // 根据hoscode获取医院设置
         HospitalSet hospitalSet = hospitalSetMapper.selectOne(new QueryWrapper<HospitalSet>().eq("hoscode", hoscode));
         if(null == hospitalSet) {

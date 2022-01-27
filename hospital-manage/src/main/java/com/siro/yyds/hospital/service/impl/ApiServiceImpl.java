@@ -9,6 +9,7 @@ import com.siro.yyds.hospital.model.Schedule;
 import com.siro.yyds.hospital.service.ApiService;
 import com.siro.yyds.hospital.util.BeanUtils;
 import com.siro.yyds.hospital.util.HttpRequestHelper;
+import com.siro.yyds.hospital.util.MD5;
 import com.siro.yyds.hospital.util.YyghException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
@@ -96,11 +97,9 @@ public class ApiServiceImpl implements ApiService {
 
         JSONObject bookingRule = jsonObject.getJSONObject("bookingRule");
         paramMap.put("bookingRule",bookingRule.toJSONString());
-
         paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
-        paramMap.put("sign", HttpRequestHelper.getSign(paramMap, this.getSignKey()));
+        paramMap.put("sign", MD5.encrypt(this.getSignKey()));
 
-        System.out.println(paramMap.get("hoscode") + "=======11=====");
         JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveHospital");
         System.out.println("response = " + respone.toJSONString());
 
