@@ -14,6 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -97,6 +98,37 @@ public class HospitalServiceImpl implements HospitalService {
             this.packHospital(item);
         });
         return pages;
+    }
+
+    /**
+     * 更新上线状态
+     * @param id
+     * @param status
+     */
+    @Override
+    public void updateHospStatus(String id, Integer status) {
+        Hospital hospital = hospitalRepository.findById(id).get();
+        hospital.setStatus(status);
+        hospital.setUpdateTime(new Date());
+        hospitalRepository.save(hospital);
+    }
+
+    /**
+     * 医院详情
+     * @param id
+     * @return
+     */
+    @Override
+    public Map<String, Object> showHospDetail(String id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        // 查询医院信息(包含医院等级)
+        Hospital hospital = this.packHospital(hospitalRepository.findById(id).get());
+        resultMap.put("hospital", hospital);
+        //单独处理更直观
+        resultMap.put("bookingRule", hospital.getBookingRule());
+        //不需要重复返回
+        hospital.setBookingRule(null);
+        return resultMap;
     }
 
     // 封装远程数据字典数据

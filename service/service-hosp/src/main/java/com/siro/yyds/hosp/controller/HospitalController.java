@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @author starsea
  * @date 2022-01-28
@@ -39,4 +41,28 @@ public class HospitalController {
         return Result.ok(hospitalPage);
     }
 
+    /**
+     * 更新上线状态
+     * @param id
+     * @param status
+     * @return
+     */
+    @ApiOperation(value = "更新上线状态")
+    @GetMapping("/updateHospStatus/{id}/{status}")
+    public Result updateHospStatus(@PathVariable("id") String id, @PathVariable("status") Integer status){
+        hospitalService.updateHospStatus(id, status);
+        return Result.ok();
+    }
+
+    /**
+     * 获取医院详情
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "获取医院详情")
+    @GetMapping("/showHospDetail/{id}")
+    public Result showHospDetail(@PathVariable("id") String id) {
+        Map<String, Object> map = hospitalService.showHospDetail(id);
+        return Result.ok(map);
+    }
 }
