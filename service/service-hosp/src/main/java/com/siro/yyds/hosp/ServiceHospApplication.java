@@ -2,12 +2,14 @@ package com.siro.yyds.hosp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author starsea
  * @date 2022-01-21
  */
+@EnableDiscoveryClient
 @ComponentScan(basePackages = "com.siro.yyds")
 @SpringBootApplication
 public class ServiceHospApplication {
