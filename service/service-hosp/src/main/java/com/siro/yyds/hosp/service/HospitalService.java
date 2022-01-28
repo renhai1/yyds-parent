@@ -1,6 +1,8 @@
 package com.siro.yyds.hosp.service;
 
 import com.siro.yyds.model.hosp.Hospital;
+import com.siro.yyds.vo.hosp.HospitalQueryVo;
+import org.springframework.data.domain.Page;
 
 import java.util.Map;
 
@@ -21,4 +23,13 @@ public interface HospitalService {
      * @return
      */
     Hospital getByHoscode(String hoscode);
+
+    /**
+     * 条件查询带分页
+     * @param page 当前页数
+     * @param limit 每页记录数
+     * @param hospitalQueryVo 查询条件
+     * @return
+     */
+    Page<Hospital> selectHospPage(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);
 }
