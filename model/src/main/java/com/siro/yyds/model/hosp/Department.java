@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author qy
  */
 @Data
-@ApiModel(description = "部门")
+@ApiModel(description = "科室")
 @Document("Department")
 public class Department extends BaseMongoEntity {
 	
