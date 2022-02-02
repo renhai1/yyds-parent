@@ -4,6 +4,7 @@ import com.siro.yyds.model.hosp.Hospital;
 import com.siro.yyds.vo.hosp.HospitalQueryVo;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,4 +54,12 @@ public interface HospitalService {
      * @return
      */
     String getHospName(String hoscode);
+
+    /**
+     * 根据医院名称 查询医院列表
+     * @param hosname
+     * @return
+     */
+    List<Hospital> findByHosname(String hosname);
+
 }
