@@ -156,6 +156,24 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalRepository.findHospitalByHosnameLike(hosname);
     }
 
+    /**
+     * 医院预约挂号详情
+     * @param hoscode
+     * @return
+     */
+    @Override
+    public Map<String, Object> item(String hoscode) {
+        Map<String, Object> result = new HashMap<>();
+        //医院详情
+        Hospital hospital = this.packHospital(this.getByHoscode(hoscode));
+        result.put("hospital", hospital);
+        //预约规则
+        result.put("bookingRule", hospital.getBookingRule());
+        //不需要重复返回
+        hospital.setBookingRule(null);
+        return result;
+    }
+
     // 封装远程数据字典数据
     private Hospital packHospital(Hospital hospital) {
         String hostypeString = dictFeignClient.getName(DictEnum.HOSTYPE.getDictCode(),hospital.getHostype());

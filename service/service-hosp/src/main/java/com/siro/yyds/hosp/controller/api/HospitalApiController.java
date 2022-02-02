@@ -1,8 +1,10 @@
 package com.siro.yyds.hosp.controller.api;
 
 import com.siro.yyds.common.result.Result;
+import com.siro.yyds.hosp.service.DepartmentService;
 import com.siro.yyds.hosp.service.HospitalService;
 import com.siro.yyds.model.hosp.Hospital;
+import com.siro.yyds.vo.hosp.DepartmentVo;
 import com.siro.yyds.vo.hosp.HospitalQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author starsea
@@ -26,6 +29,9 @@ public class HospitalApiController {
 
     @Autowired
     private HospitalService hospitalService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     /**
      * 分页查询医院列表
@@ -54,5 +60,29 @@ public class HospitalApiController {
     public Result findByHosname(@PathVariable("hosname") String hosname) {
         List<Hospital> list = hospitalService.findByHosname(hosname);
         return Result.ok(list);
+    }
+
+    /**
+     * 根据医院编号，查询医院所有科室列表
+     * @param hoscode
+     * @return
+     */
+    @ApiOperation(value = "获取科室列表")
+    @GetMapping("/department/{hoscode}")
+    public Result index(@PathVariable("hoscode") String hoscode) {
+        List<DepartmentVo> voList = departmentService.findDeptTree(hoscode);
+        return Result.ok(voList);
+    }
+
+    /**
+     * 根据医院编号，查询医院预约挂号详情
+     * @param hoscode
+     * @return
+     */
+    @ApiOperation(value = "医院预约挂号详情")
+    @GetMapping("/findHospDetail/{hoscode}")
+    public Result item(@PathVariable("hoscode") String hoscode) {
+        Map<String, Object> map = hospitalService.item(hoscode);
+        return Result.ok(map);
     }
 }
