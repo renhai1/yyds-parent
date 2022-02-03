@@ -9,6 +9,8 @@ import com.siro.yyds.model.user.UserInfo;
 import com.siro.yyds.user.mapper.UserInfoMapper;
 import com.siro.yyds.user.service.UserInfoService;
 import com.siro.yyds.vo.user.LoginVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +23,9 @@ import java.util.Map;
  */
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 用户手机号验证码登录
@@ -37,6 +42,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         }
 
         // TODO 判断手机验证码和输入的验证码是否一致
+        String mobleCode = redisTemplate.opsForValue().get(phone);
+        if(!code.equals(mobleCode)) {
+            throw new YydsException(ResultCodeEnum.CODE_ERROR);
+        }
 
         // 判断是否第一次登录，根据手机号查询数据库，如果不存在相同的手机号就是第一次登录
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
@@ -55,8 +64,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if(userInfo.getStatus() == 0) {
             throw new YydsException(ResultCodeEnum.LOGIN_DISABLED_ERROR);
         }
-
-        //TODO 记录登录
 
         // 返回登录信息
         Map<String, Object> map = new HashMap<>();
