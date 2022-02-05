@@ -33,6 +33,7 @@
             <artifactId>jjwt</artifactId>
         </dependency>
 
+        <!--httpclient-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>

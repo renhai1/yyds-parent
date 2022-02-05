@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 手机验证参数类
  * @author starsea
  * @date 2022-02-03
  */

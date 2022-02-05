@@ -25,6 +25,9 @@ import java.util.Map;
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
 
     @Autowired
+    private UserInfoMapper userInfoMapper;
+
+    @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     /**
@@ -47,17 +50,32 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             throw new YydsException(ResultCodeEnum.CODE_ERROR);
         }
 
-        // 判断是否第一次登录，根据手机号查询数据库，如果不存在相同的手机号就是第一次登录
-        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("phone", phone);
-        UserInfo userInfo = baseMapper.selectOne(queryWrapper);
+        //绑定手机号码
+        UserInfo userInfo = null;
+        if(!StringUtils.isEmpty(loginVo.getOpenid())) {
+            userInfo = this.getByOpenid(loginVo.getOpenid());
+            if(null != userInfo) {
+                userInfo.setPhone(loginVo.getPhone());
+                this.updateById(userInfo);
+            } else {
+                throw new YydsException(ResultCodeEnum.DATA_ERROR);
+            }
+        }
+
+        // 如果userInfo 为空，则进行手机登录
         if(null == userInfo) {
-            // 注册信息到数据库
-            userInfo = new UserInfo();
-            userInfo.setName("");
-            userInfo.setPhone(phone);
-            userInfo.setStatus(1);
-            this.save(userInfo);
+            // 判断是否第一次登录，根据手机号查询数据库，如果不存在相同的手机号就是第一次登录
+            QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("phone", phone);
+            userInfo = baseMapper.selectOne(queryWrapper);
+            if(null == userInfo) {
+                // 注册信息到数据库
+                userInfo = new UserInfo();
+                userInfo.setName("");
+                userInfo.setPhone(phone);
+                userInfo.setStatus(1);
+                this.save(userInfo);
+            }
         }
 
         // 校验是否被禁用
@@ -81,5 +99,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         map.put("token",token);
 
         return map;
+    }
+
+    @Override
+    public UserInfo getByOpenid(String openid) {
+        return userInfoMapper.selectOne(new QueryWrapper<UserInfo>().eq("openid", openid));
     }
 }
