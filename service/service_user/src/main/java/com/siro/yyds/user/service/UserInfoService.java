@@ -3,6 +3,7 @@ package com.siro.yyds.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.siro.yyds.model.user.UserInfo;
 import com.siro.yyds.vo.user.LoginVo;
+import com.siro.yyds.vo.user.UserAuthVo;
 
 import java.util.Map;
 
@@ -25,4 +26,11 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      */
     UserInfo getByOpenid(String openid);
+
+    /**
+     * 用户认证
+     * @param userId
+     * @param userAuthVo
+     */
+    void userAuth(Long userId, UserAuthVo userAuthVo);
 }

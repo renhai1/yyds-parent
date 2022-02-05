@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.siro.yyds.common.exception.YydsException;
 import com.siro.yyds.common.result.ResultCodeEnum;
 import com.siro.yyds.common.util.JwtHelper;
+import com.siro.yyds.enums.AuthStatusEnum;
 import com.siro.yyds.model.user.UserInfo;
 import com.siro.yyds.user.mapper.UserInfoMapper;
 import com.siro.yyds.user.service.UserInfoService;
 import com.siro.yyds.vo.user.LoginVo;
+import com.siro.yyds.vo.user.UserAuthVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -101,8 +103,34 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         return map;
     }
 
+    /**
+     * 根据微信openid获取用户信息
+     * @param openid
+     * @return
+     */
     @Override
     public UserInfo getByOpenid(String openid) {
         return userInfoMapper.selectOne(new QueryWrapper<UserInfo>().eq("openid", openid));
+    }
+
+    /**
+     * 用户认证
+     * @param userId
+     * @param userAuthVo
+     */
+    @Override
+    public void userAuth(Long userId, UserAuthVo userAuthVo) {
+        // 根据用户id查询用户信息
+        UserInfo userInfo = baseMapper.selectById(userId);
+        // 设置认证信息
+        // 认证人姓名
+        userInfo.setName(userAuthVo.getName());
+        // 其他认证信息
+        userInfo.setCertificatesType(userAuthVo.getCertificatesType());
+        userInfo.setCertificatesNo(userAuthVo.getCertificatesNo());
+        userInfo.setCertificatesUrl(userAuthVo.getCertificatesUrl());
+        userInfo.setAuthStatus(AuthStatusEnum.AUTH_RUN.getStatus());
+        // 进行信息更新
+        baseMapper.updateById(userInfo);
     }
 }
