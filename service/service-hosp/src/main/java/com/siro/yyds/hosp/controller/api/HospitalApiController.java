@@ -151,7 +151,7 @@ public class HospitalApiController {
     public Result getSchedule(
             @ApiParam(name = "scheduleId", value = "排班id", required = true)
             @PathVariable String scheduleId) {
-        Schedule schedule = scheduleService.getById(scheduleId);
+        Schedule schedule = scheduleService.getScheduleId(scheduleId);
         return Result.ok(schedule);
     }
 

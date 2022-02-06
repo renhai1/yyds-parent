@@ -294,12 +294,12 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
 
     /**
      * 根据id获取排班信息
-     * @param id
+     * @param scheduleId
      * @return
      */
     @Override
-    public Schedule getById(String id) {
-        Schedule schedule = scheduleRepository.findById(id).get();
+    public Schedule getScheduleId(String scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).get();
         return this.packageSchedule(schedule);
     }
 
@@ -355,6 +355,17 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         DateTime stopTime = this.getDateTime(new Date(), bookingRule.getStopTime());
         scheduleOrderVo.setStartTime(stopTime.toDate());
         return scheduleOrderVo;
+    }
+
+    /**
+     * 修改排班数据
+     * @param schedule
+     */
+    @Override
+    public void update(Schedule schedule) {
+        schedule.setUpdateTime(new Date());
+        // 主键一致就是更新
+        scheduleRepository.save(schedule);
     }
 
     // 获取可预约日期分页数据

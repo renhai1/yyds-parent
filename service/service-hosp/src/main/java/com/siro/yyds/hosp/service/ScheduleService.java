@@ -68,10 +68,10 @@ public interface ScheduleService extends IService<Schedule> {
 
     /**
      * 根据id获取排班信息
-     * @param id
+     * @param scheduleId
      * @return
      */
-    Schedule getById(String id);
+    Schedule getScheduleId(String scheduleId);
 
     /**
      * 根据排班id获取预约下单数据
@@ -79,4 +79,10 @@ public interface ScheduleService extends IService<Schedule> {
      * @return
      */
     ScheduleOrderVo getScheduleOrderVo(String scheduleId);
+
+    /**
+     * 修改排班数据
+     * @param schedule
+     */
+    void update(Schedule schedule);
 }

@@ -23,6 +23,7 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
         </dependency>
 
+        <!--rabbitmq消息队列-->
         <dependency>
             <groupId>com.siro</groupId>
             <artifactId>rabbit-util</artifactId>
