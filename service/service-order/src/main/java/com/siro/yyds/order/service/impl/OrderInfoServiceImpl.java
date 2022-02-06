@@ -1,6 +1,9 @@
 package com.siro.yyds.order.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.siro.yyds.common.exception.YydsException;
 import com.siro.yyds.common.helper.HttpRequestHelper;
@@ -17,11 +20,13 @@ import com.siro.yyds.rabbit.service.RabbitService;
 import com.siro.yyds.vo.hosp.ScheduleOrderVo;
 import com.siro.yyds.vo.msm.MsmVo;
 import com.siro.yyds.vo.order.OrderMqVo;
+import com.siro.yyds.vo.order.OrderQueryVo;
 import com.siro.yyds.vo.order.SignInfoVo;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -176,6 +181,51 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     public OrderInfo getOrder(String orderId) {
         OrderInfo orderInfo = baseMapper.selectById(orderId);
         return this.packOrderInfo(orderInfo);
+    }
+
+    /**
+     * 订单列表（条件查询带分页）
+     * @param pageParam
+     * @param orderQueryVo
+     * @return
+     */
+    @Override
+    public IPage<OrderInfo> selectPage(Page<OrderInfo> pageParam, OrderQueryVo orderQueryVo) {
+        //orderQueryVo获取条件值
+        String name = orderQueryVo.getKeyword(); //医院名称
+        Long patientId = orderQueryVo.getPatientId(); //就诊人名称
+        String orderStatus = orderQueryVo.getOrderStatus(); //订单状态
+        String reserveDate = orderQueryVo.getReserveDate();//安排时间
+        String createTimeBegin = orderQueryVo.getCreateTimeBegin();//开始时间
+        String createTimeEnd = orderQueryVo.getCreateTimeEnd();//结束时间
+
+        //对条件值进行非空判断
+        QueryWrapper<OrderInfo> wrapper = new QueryWrapper<>();
+        if(!StringUtils.isEmpty(name)) {
+            wrapper.like("hosname",name);
+        }
+        if(!StringUtils.isEmpty(patientId)) {
+            wrapper.eq("patient_id",patientId);
+        }
+        if(!StringUtils.isEmpty(orderStatus)) {
+            wrapper.eq("order_status",orderStatus);
+        }
+        if(!StringUtils.isEmpty(reserveDate)) {
+            wrapper.ge("reserve_date",reserveDate);
+        }
+        if(!StringUtils.isEmpty(createTimeBegin)) {
+            wrapper.ge("create_time",createTimeBegin);
+        }
+        if(!StringUtils.isEmpty(createTimeEnd)) {
+            wrapper.le("create_time",createTimeEnd);
+        }
+        //调用mapper的方法
+        IPage<OrderInfo> pages = baseMapper.selectPage(pageParam, wrapper);
+        //编号变成对应值封装
+        pages.getRecords().stream().forEach(item -> {
+            this.packOrderInfo(item);
+        });
+        return pages;
     }
 
     // 将数据库中存储的订单状态 改为中文返回前端

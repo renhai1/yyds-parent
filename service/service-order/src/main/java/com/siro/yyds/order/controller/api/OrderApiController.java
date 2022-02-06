@@ -1,13 +1,20 @@
 package com.siro.yyds.order.controller.api;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.siro.yyds.common.result.Result;
+import com.siro.yyds.common.util.AuthContextHolder;
+import com.siro.yyds.enums.OrderStatusEnum;
 import com.siro.yyds.model.order.OrderInfo;
 import com.siro.yyds.order.service.OrderInfoService;
+import com.siro.yyds.vo.order.OrderQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author starsea
@@ -48,5 +55,34 @@ public class OrderApiController {
     public Result getOrders(@PathVariable("orderId") String orderId) {
         OrderInfo orderInfo = orderInfoService.getOrder(orderId);
         return Result.ok(orderInfo);
+    }
+
+    /**
+     * 订单列表（条件查询带分页）
+     * @param page
+     * @param limit
+     * @param orderQueryVo
+     * @return
+     */
+    @ApiOperation(value = "订单列表（条件查询带分页）")
+    @GetMapping("/{page}/{limit}")
+    public Result list(@PathVariable("page") Long page,
+                       @PathVariable("limit") Long limit,
+                       OrderQueryVo orderQueryVo, HttpServletRequest request) {
+        // 设置当前用户id
+        orderQueryVo.setUserId(AuthContextHolder.getUserId(request));
+        Page<OrderInfo> pageParam = new Page<>(page,limit);
+        IPage<OrderInfo> pageModel = orderInfoService.selectPage(pageParam, orderQueryVo);
+        return Result.ok(pageModel);
+    }
+
+    /**
+     * 获取订单状态
+     * @return
+     */
+    @ApiOperation(value = "获取订单状态")
+    @GetMapping("/getStatusList")
+    public Result getStatusList() {
+        return Result.ok(OrderStatusEnum.getStatusList());
     }
 }

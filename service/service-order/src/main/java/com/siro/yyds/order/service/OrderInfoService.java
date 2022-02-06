@@ -1,7 +1,10 @@
 package com.siro.yyds.order.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.siro.yyds.model.order.OrderInfo;
+import com.siro.yyds.vo.order.OrderQueryVo;
 
 /**
  * @author starsea
@@ -23,4 +26,12 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      */
     OrderInfo getOrder(String orderId);
+
+    /**
+     * 订单列表（条件查询带分页）
+     * @param pageParam
+     * @param orderQueryVo
+     * @return
+     */
+    IPage<OrderInfo> selectPage(Page<OrderInfo> pageParam, OrderQueryVo orderQueryVo);
 }
