@@ -16,4 +16,11 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      */
     Long saveOrder(String scheduleId, Long patientId);
+
+    /**
+     * 根据订单id查询订单详情
+     * @param orderId
+     * @return
+     */
+    OrderInfo getOrder(String orderId);
 }
