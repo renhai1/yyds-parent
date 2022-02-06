@@ -1,9 +1,12 @@
 package com.siro.yyds.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.siro.yyds.model.user.UserInfo;
 import com.siro.yyds.vo.user.LoginVo;
 import com.siro.yyds.vo.user.UserAuthVo;
+import com.siro.yyds.vo.user.UserInfoQueryVo;
 
 import java.util.Map;
 
@@ -33,4 +36,12 @@ public interface UserInfoService extends IService<UserInfo> {
      * @param userAuthVo
      */
     void userAuth(Long userId, UserAuthVo userAuthVo);
+
+    /**
+     * 用户列表（条件查询带分页）
+     * @param pageParam
+     * @param userInfoQueryVo
+     * @return
+     */
+    IPage<UserInfo> selectPage(Page<UserInfo> pageParam, UserInfoQueryVo userInfoQueryVo);
 }

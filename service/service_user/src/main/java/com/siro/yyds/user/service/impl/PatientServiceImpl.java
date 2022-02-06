@@ -42,11 +42,7 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
 
     }
 
-    /**
-     * Patient对象里面其他参数封装
-     * @param patient
-     * @return
-     */
+    // Patient对象里面其他参数封装
     private Patient packPatient(Patient patient) {
         // 根据证件类型编码，获取证件类型具体指
         String certificatesTypeString =

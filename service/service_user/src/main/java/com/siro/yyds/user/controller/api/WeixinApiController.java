@@ -1,4 +1,4 @@
-package com.siro.yyds.user.controller;
+package com.siro.yyds.user.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.siro.yyds.common.exception.YydsException;

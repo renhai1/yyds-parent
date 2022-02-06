@@ -1,4 +1,4 @@
-package com.siro.yyds.user.controller;
+package com.siro.yyds.user.controller.api;
 
 import com.siro.yyds.common.result.Result;
 import com.siro.yyds.common.util.AuthContextHolder;
