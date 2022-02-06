@@ -3,20 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>yyds-parent</artifactId>
+        <artifactId>service</artifactId>
         <groupId>com.siro</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-client</artifactId>
-    <packaging>pom</packaging>
-    <description>Fegin服务调用</description>
-    <modules>
-        <module>service-cmn-client</module>
-        <module>service-user-client</module>
-        <module>service-hosp-client</module>
-    </modules>
+    <artifactId>service-order</artifactId>
+    <description>订单api接口服务</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -26,29 +20,18 @@
     <dependencies>
         <dependency>
             <groupId>com.siro</groupId>
-            <artifactId>common-util</artifactId>
+            <artifactId>service-cmn-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.siro</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>service-user-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- 服务调用feign -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <scope>provided</scope>
+            <groupId>com.siro</groupId>
+            <artifactId>service-hosp-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
 </project>

@@ -3,11 +3,14 @@ package com.siro.yyds.hosp.controller.api;
 import com.siro.yyds.common.result.Result;
 import com.siro.yyds.hosp.service.DepartmentService;
 import com.siro.yyds.hosp.service.HospitalService;
+import com.siro.yyds.hosp.service.HospitalSetService;
 import com.siro.yyds.hosp.service.ScheduleService;
 import com.siro.yyds.model.hosp.Hospital;
 import com.siro.yyds.model.hosp.Schedule;
 import com.siro.yyds.vo.hosp.DepartmentVo;
 import com.siro.yyds.vo.hosp.HospitalQueryVo;
+import com.siro.yyds.vo.hosp.ScheduleOrderVo;
+import com.siro.yyds.vo.order.SignInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -38,6 +41,9 @@ public class HospitalApiController {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private HospitalSetService hospitalSetService;
 
     /**
      * 分页查询医院列表
@@ -147,5 +153,32 @@ public class HospitalApiController {
             @PathVariable String scheduleId) {
         Schedule schedule = scheduleService.getById(scheduleId);
         return Result.ok(schedule);
+    }
+
+    /**
+     * 根据排班id获取预约下单数据
+     * @param scheduleId
+     * @return
+     */
+    @ApiOperation(value = "根据排班id获取预约下单数据")
+    @GetMapping("/inner/getScheduleOrderVo/{scheduleId}")
+    public Result getScheduleOrderVo(
+            @ApiParam(name = "scheduleId", value = "排班id", required = true)
+            @PathVariable("scheduleId") String scheduleId) {
+        ScheduleOrderVo scheduleOrderVo = scheduleService.getScheduleOrderVo(scheduleId);
+        return Result.ok(scheduleOrderVo);
+    }
+
+    /**
+     * 获取医院签名信息
+     * @param hoscode
+     * @return
+     */
+    @ApiOperation(value = "获取医院签名信息")
+    @GetMapping("/inner/getSignInfoVo/{hoscode}")
+    public SignInfoVo getSignInfoVo(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable("hoscode") String hoscode) {
+        return hospitalSetService.getSignInfoVo(hoscode);
     }
 }

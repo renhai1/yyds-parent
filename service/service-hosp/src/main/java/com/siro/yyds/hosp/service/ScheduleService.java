@@ -1,6 +1,8 @@
 package com.siro.yyds.hosp.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.siro.yyds.model.hosp.Schedule;
+import com.siro.yyds.vo.hosp.ScheduleOrderVo;
 import com.siro.yyds.vo.hosp.ScheduleQueryVo;
 import org.springframework.data.domain.Page;
 
@@ -11,7 +13,7 @@ import java.util.Map;
  * @author starsea
  * @date 2022-01-27
  */
-public interface ScheduleService {
+public interface ScheduleService extends IService<Schedule> {
 
     /**
      * 上传排班信息
@@ -70,4 +72,11 @@ public interface ScheduleService {
      * @return
      */
     Schedule getById(String id);
+
+    /**
+     * 根据排班id获取预约下单数据
+     * @param scheduleId
+     * @return
+     */
+    ScheduleOrderVo getScheduleOrderVo(String scheduleId);
 }

@@ -6,6 +6,7 @@ import com.siro.yyds.model.user.Patient;
 import com.siro.yyds.user.service.PatientService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,5 +89,19 @@ public class PatientApiController {
     public Result removePatient(@PathVariable Long id) {
         patientService.removeById(id);
         return Result.ok();
+    }
+
+    /**
+     * 根据就诊人id获取就诊人信息
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "获取就诊人")
+    @GetMapping("/inner/get/{id}")
+    public Result getPatientOrder(
+            @ApiParam(name = "id", value = "就诊人id", required = true)
+            @PathVariable("id") Long id) {
+        Patient patient = patientService.getPatientId(id);
+        return Result.ok(patient);
     }
 }
