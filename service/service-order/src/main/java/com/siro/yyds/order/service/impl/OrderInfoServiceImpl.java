@@ -12,7 +12,11 @@ import com.siro.yyds.model.order.OrderInfo;
 import com.siro.yyds.model.user.Patient;
 import com.siro.yyds.order.mapper.OrderInfoMapper;
 import com.siro.yyds.order.service.OrderInfoService;
+import com.siro.yyds.rabbit.constant.MqConst;
+import com.siro.yyds.rabbit.service.RabbitService;
 import com.siro.yyds.vo.hosp.ScheduleOrderVo;
+import com.siro.yyds.vo.msm.MsmVo;
+import com.siro.yyds.vo.order.OrderMqVo;
 import com.siro.yyds.vo.order.SignInfoVo;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
@@ -35,6 +39,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     @Autowired
     private HospitalFeignClient hospitalFeignClient;
+
+    @Autowired
+    private RabbitService rabbitService;
 
     /**
      * 保存订单
@@ -131,6 +138,28 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             Integer availableNumber = jsonObject.getInteger("availableNumber");
 
             // TODO 发送mq信息 更新号源和短信通知
+            //发送mq信息更新号源
+            OrderMqVo orderMqVo = new OrderMqVo();
+            orderMqVo.setScheduleId(scheduleId);
+            orderMqVo.setReservedNumber(reservedNumber);
+            orderMqVo.setAvailableNumber(availableNumber);
+
+            //短信提示
+            MsmVo msmVo = new MsmVo();
+            msmVo.setPhone(orderInfo.getPatientPhone());
+            String reserveDate =
+                    new DateTime(orderInfo.getReserveDate()).toString("yyyy-MM-dd")
+                            + (orderInfo.getReserveTime()==0 ? "上午": "下午");
+            Map<String,Object> param = new HashMap<String,Object>(){{
+                put("title", orderInfo.getHosname()+"|"+orderInfo.getDepname()+"|"+orderInfo.getTitle());
+                put("amount", orderInfo.getAmount());
+                put("reserveDate", reserveDate);
+                put("name", orderInfo.getPatientName());
+                put("quitTime", new DateTime(orderInfo.getQuitTime()).toString("yyyy-MM-dd HH:mm"));
+            }};
+            msmVo.setParam(param);
+            orderMqVo.setMsmVo(msmVo);
+            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, orderMqVo);
 
         } else {
             throw new YydsException(result.getString("message"), ResultCodeEnum.FAIL.getCode());
