@@ -44,4 +44,18 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      */
     IPage<UserInfo> selectPage(Page<UserInfo> pageParam, UserInfoQueryVo userInfoQueryVo);
+
+    /**
+     * 用户锁定
+     * @param userId
+     * @param status 0：锁定 1：正常
+     */
+    void lock(Long userId, Integer status);
+
+    /**
+     * 详情
+     * @param userId
+     * @return
+     */
+    Map<String, Object> show(Long userId);
 }

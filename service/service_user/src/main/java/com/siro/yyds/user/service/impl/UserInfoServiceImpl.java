@@ -8,8 +8,10 @@ import com.siro.yyds.common.exception.YydsException;
 import com.siro.yyds.common.result.ResultCodeEnum;
 import com.siro.yyds.common.util.JwtHelper;
 import com.siro.yyds.enums.AuthStatusEnum;
+import com.siro.yyds.model.user.Patient;
 import com.siro.yyds.model.user.UserInfo;
 import com.siro.yyds.user.mapper.UserInfoMapper;
+import com.siro.yyds.user.service.PatientService;
 import com.siro.yyds.user.service.UserInfoService;
 import com.siro.yyds.vo.user.LoginVo;
 import com.siro.yyds.vo.user.UserAuthVo;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +37,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private PatientService patientService;
 
     /**
      * 用户手机号验证码登录
@@ -176,6 +182,37 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             this.packageUserInfo(item);
         });
         return pages;
+    }
+
+    /**
+     * 用户锁定
+     * @param userId
+     * @param status 0：锁定 1：正常
+     */
+    @Override
+    public void lock(Long userId, Integer status) {
+        if (status.intValue() ==0 || status.intValue() == 1) {
+            UserInfo userInfo = baseMapper.selectById(userId);
+            userInfo.setStatus(status);
+            baseMapper.updateById(userInfo);
+        }
+    }
+
+    /**
+     * 详情
+     * @param userId
+     * @return
+     */
+    @Override
+    public Map<String, Object> show(Long userId) {
+        Map<String,Object> map = new HashMap<>();
+        // 根据userid查询用户信息
+        UserInfo userInfo = this.packageUserInfo(baseMapper.selectById(userId));
+        map.put("userInfo",userInfo);
+        // 根据userid查询就诊人信息
+        List<Patient> patientList = patientService.findAllUserId(userId);
+        map.put("patientList", patientList);
+        return map;
     }
 
     // 编号变成对应值封装

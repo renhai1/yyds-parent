@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author starsea
  * @date 2022-02-05
@@ -41,5 +43,29 @@ public class UserController {
         Page<UserInfo> pageParam = new Page<>(page,limit);
         IPage<UserInfo> pageModel = userInfoService.selectPage(pageParam, userInfoQueryVo);
         return Result.ok(pageModel);
+    }
+
+    /**
+     * 锁定用户状态
+     * @param userId
+     * @param status
+     * @return
+     */
+    @ApiOperation(value = "锁定用户状态")
+    @GetMapping("/lock/{userId}/{status}")
+    public Result lock(@PathVariable("userId") Long userId, @PathVariable("status") Integer status){
+        userInfoService.lock(userId, status);
+        return Result.ok();
+    }
+
+    /**
+     * 用户详情
+     * @param userId
+     * @return
+     */
+    @GetMapping("/show/{userId}")
+    public Result show(@PathVariable("userId") Long userId) {
+        Map<String, Object> map = userInfoService.show(userId);
+        return Result.ok(map);
     }
 }
