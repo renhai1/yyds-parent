@@ -134,4 +134,18 @@ public class HospitalApiController {
         List<Schedule> list = scheduleService.getDetailSchedule(hoscode, depcode, workDate);
         return Result.ok(list);
     }
+
+    /**
+     * 根据排班id获取排班数据
+     * @param scheduleId
+     * @return
+     */
+    @ApiOperation(value = "根据排班id获取排班数据")
+    @GetMapping("/getSchedule/{scheduleId}")
+    public Result getSchedule(
+            @ApiParam(name = "scheduleId", value = "排班id", required = true)
+            @PathVariable String scheduleId) {
+        Schedule schedule = scheduleService.getById(scheduleId);
+        return Result.ok(schedule);
+    }
 }
