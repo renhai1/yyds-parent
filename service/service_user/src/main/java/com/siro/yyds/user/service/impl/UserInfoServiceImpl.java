@@ -215,6 +215,20 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         return map;
     }
 
+    /**
+     * 认证审批
+     * @param userId
+     * @param authStatus 2：通过 -1：不通过
+     */
+    @Override
+    public void approval(Long userId, Integer authStatus) {
+        if(authStatus.intValue()==2 || authStatus.intValue()==-1) {
+            UserInfo userInfo = baseMapper.selectById(userId);
+            userInfo.setAuthStatus(authStatus);
+            baseMapper.updateById(userInfo);
+        }
+    }
+
     // 编号变成对应值封装
     private UserInfo packageUserInfo(UserInfo userInfo) {
         // 处理认证状态编码
