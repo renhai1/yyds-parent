@@ -228,6 +228,21 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return pages;
     }
 
+    /**
+     * 订单详情
+     * @param orderId
+     * @return
+     */
+    @Override
+    public Map<String, Object> showDetail(Long orderId) {
+        Map<String, Object> map = new HashMap<>();
+        OrderInfo orderInfo = this.packOrderInfo(this.getById(orderId));
+        map.put("orderInfo", orderInfo);
+        Patient patient = patientFeignClient.getPatient(orderInfo.getPatientId());
+        map.put("patient", patient);
+        return map;
+    }
+
     // 将数据库中存储的订单状态 改为中文返回前端
     private OrderInfo packOrderInfo(OrderInfo orderInfo) {
         orderInfo.getParam().put("orderStatusString", OrderStatusEnum.getStatusNameByStatus(orderInfo.getOrderStatus()));

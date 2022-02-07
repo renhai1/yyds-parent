@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.siro.yyds.model.order.OrderInfo;
 import com.siro.yyds.vo.order.OrderQueryVo;
 
+import java.util.Map;
+
 /**
  * @author starsea
  * @date 2022-02-06
@@ -34,4 +36,11 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      */
     IPage<OrderInfo> selectPage(Page<OrderInfo> pageParam, OrderQueryVo orderQueryVo);
+
+    /**
+     * 订单详情
+     * @param orderId
+     * @return
+     */
+    Map<String,Object> showDetail(Long orderId);
 }
