@@ -162,11 +162,10 @@ public class HospitalApiController {
      */
     @ApiOperation(value = "根据排班id获取预约下单数据")
     @GetMapping("/inner/getScheduleOrderVo/{scheduleId}")
-    public Result getScheduleOrderVo(
+    public ScheduleOrderVo getScheduleOrderVo(
             @ApiParam(name = "scheduleId", value = "排班id", required = true)
             @PathVariable("scheduleId") String scheduleId) {
-        ScheduleOrderVo scheduleOrderVo = scheduleService.getScheduleOrderVo(scheduleId);
-        return Result.ok(scheduleOrderVo);
+        return scheduleService.getScheduleOrderVo(scheduleId);
     }
 
     /**

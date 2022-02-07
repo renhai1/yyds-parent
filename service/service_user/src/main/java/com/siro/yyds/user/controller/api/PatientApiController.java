@@ -98,10 +98,10 @@ public class PatientApiController {
      */
     @ApiOperation(value = "获取就诊人")
     @GetMapping("/inner/get/{id}")
-    public Result getPatientOrder(
+    public Patient getPatientOrder(
             @ApiParam(name = "id", value = "就诊人id", required = true)
             @PathVariable("id") Long id) {
         Patient patient = patientService.getPatientId(id);
-        return Result.ok(patient);
+        return patient;
     }
 }

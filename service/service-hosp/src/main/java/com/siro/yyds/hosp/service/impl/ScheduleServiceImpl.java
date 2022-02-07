@@ -312,7 +312,8 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
     public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
         ScheduleOrderVo scheduleOrderVo = new ScheduleOrderVo();
         //排班信息
-        Schedule schedule = baseMapper.selectById(scheduleId);
+//        Schedule schedule = baseMapper.selectById(scheduleId);
+        Schedule schedule = this.getScheduleId(scheduleId);
         if(null == schedule) {
             throw new YydsException(ResultCodeEnum.DATA_ERROR);
         }
@@ -338,6 +339,10 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         scheduleOrderVo.setReserveTime(schedule.getWorkTime());
         scheduleOrderVo.setAmount(schedule.getAmount());
 
+//        预约周期	放号时间		    停挂时间	    退号截至天数	    退号时间
+//        cycle 	releaseTime		stoptime	quitday			quitTime
+//        10		08:30			11:30		-1				15:30
+
         //退号截止天数（如：就诊前一天为-1，当天为0）
         int quitDay = bookingRule.getQuitDay();
         DateTime quitTime = this.getDateTime(new DateTime(schedule.getWorkDate()).plusDays(quitDay).toDate(), bookingRule.getQuitTime());
@@ -353,7 +358,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
 
         //当天停止挂号时间
         DateTime stopTime = this.getDateTime(new Date(), bookingRule.getStopTime());
-        scheduleOrderVo.setStartTime(stopTime.toDate());
+        scheduleOrderVo.setStopTime(stopTime.toDate());
         return scheduleOrderVo;
     }
 
