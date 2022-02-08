@@ -87,7 +87,9 @@ public class OrderApiController {
     }
 
     /**
-     * 取消预约
+     * 取消预约  分两种情况：
+     *   1、未支付取消订单，直接通知医院更新取消预约状态
+     *   2、已支付取消订单，先退款给用户，然后通知医院更新取消预约状态
      * @param orderId
      * @return
      */

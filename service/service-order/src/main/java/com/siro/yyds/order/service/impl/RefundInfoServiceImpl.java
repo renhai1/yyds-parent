@@ -39,7 +39,6 @@ public class RefundInfoServiceImpl extends ServiceImpl<RefundInfoMapper, RefundI
         refundInfo.setOutTradeNo(paymentInfo.getOutTradeNo());
         refundInfo.setRefundStatus(RefundStatusEnum.UNREFUND.getStatus());
         refundInfo.setSubject(paymentInfo.getSubject());
-        //paymentInfo.setSubject("test");
         refundInfo.setTotalAmount(paymentInfo.getTotalAmount());
         baseMapper.insert(refundInfo);
         return refundInfo;

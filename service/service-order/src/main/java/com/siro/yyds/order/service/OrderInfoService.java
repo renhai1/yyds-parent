@@ -49,4 +49,9 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @param orderId
      */
     Boolean cancelOrder(Long orderId);
+
+    /**
+     * 就诊提醒
+     */
+    void patientTips();
 }
