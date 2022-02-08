@@ -260,6 +260,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         if(quitTime.isBeforeNow()) {
             throw new YydsException(ResultCodeEnum.CANCEL_ORDER_NO);
         }
+        // 调用医院接口实现预约取消
         SignInfoVo signInfoVo = hospitalFeignClient.getSignInfoVo(orderInfo.getHoscode());
         if(null == signInfoVo) {
             throw new YydsException(ResultCodeEnum.PARAM_ERROR);
@@ -295,7 +296,6 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             //短信提示
             MsmVo msmVo = new MsmVo();
             msmVo.setPhone(orderInfo.getPatientPhone());
-            msmVo.setTemplateCode("SMS_205121391");
             String reserveDate = new DateTime(orderInfo.getReserveDate()).toString("yyyy-MM-dd") + (orderInfo.getReserveTime()==0 ? "上午": "下午");
             Map<String,Object> param = new HashMap<String,Object>(){{
                 put("title", orderInfo.getHosname()+"|"+orderInfo.getDepname()+"|"+orderInfo.getTitle());

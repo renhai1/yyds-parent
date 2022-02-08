@@ -143,12 +143,13 @@ public class WeixinServiceImpl implements WeixinService {
         try {
             // 根据订单编号查询订单记录表
             PaymentInfo paymentInfoQuery = paymentInfoService.getPaymentInfo(orderId, PaymentTypeEnum.WEIXIN.getStatus());
-            // 保存退款记录信息
+            // 保存退款记录信息到退款记录表
             RefundInfo refundInfo = refundInfoService.saveRefundInfo(paymentInfoQuery);
+            // 判断当前订单数据是否已经退款
             if(refundInfo.getRefundStatus().intValue() == RefundStatusEnum.REFUND.getStatus().intValue()) {
                 return true;
             }
-
+            // 调用微信接口实现退款
             Map<String, String> paramMap = new HashMap<>(8);
             paramMap.put("appid",ConstantPropertiesUtils.APPID);//公众账号ID
             paramMap.put("mch_id",ConstantPropertiesUtils.PARTNER);//商户编号
@@ -160,12 +161,12 @@ public class WeixinServiceImpl implements WeixinService {
             //paramMap.put("refund_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
             paramMap.put("total_fee","1");
             paramMap.put("refund_fee","1");
-
+            // 设置调用接口内容
             String paramXml = WXPayUtil.generateSignedXml(paramMap, ConstantPropertiesUtils.PARTNERKEY);
             HttpClient client = new HttpClient("https://api.mch.weixin.qq.com/secapi/pay/refund");
             client.setXmlParam(paramXml);
             client.setHttps(true);
-            client.setCert(true);
+            client.setCert(true);// 设置退款证书
             client.setCertPassword(ConstantPropertiesUtils.PARTNER);
             client.post();
 
