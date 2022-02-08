@@ -18,7 +18,7 @@ import java.util.Date;
  * @author qy
  */
 @Data
-@ApiModel(description = "PaymentInfo")
+@ApiModel(description = "支付记录表")
 @TableName("payment_info")
 public class PaymentInfo extends BaseEntity {
 	

@@ -40,6 +40,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
+ * http请求客户端
  * @author starsea
  * @date 2022-02-03
  */
@@ -298,4 +299,3 @@ public class HttpClientUtils {
         }
     }
 }
-

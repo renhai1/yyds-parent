@@ -69,6 +69,12 @@ Rabbitmq访问地址（guest/guest）：http://ip:15672/
 
 注意：前期学习阶段使用了nginx, 在目录下，使用cmd，然后输入nginx.exe。
 
+> 说明：
+> 
+> sql文件 在 yyds-parent/sql 文件夹中
+> 
+> 课件及模板 在 yyds-parent/doc 文件夹中
+
 ## 7、项目模块说明
 
 **后端项目**：

@@ -19,7 +19,7 @@ import java.util.Date;
  * @author qy
  */
 @Data
-@ApiModel(description = "Order")
+@ApiModel(description = "订单表")
 @TableName("order_info")
 public class OrderInfo extends BaseEntity {
 	
