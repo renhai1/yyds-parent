@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 /**
+ * 微信支付官网说明：
+ * https://pay.weixin.qq.com/wiki/doc/api/index.html
+ * 取消预约，申请退款：
+ * https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
+ *
  * @author starsea
  * @date 2022-02-08
  */

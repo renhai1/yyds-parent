@@ -22,4 +22,11 @@ public interface WeixinService {
      * @return
      */
     Map<String, String> queryPayStatus(Long orderId, String name);
+
+    /**
+     * 退款
+     * @param orderId
+     * @return
+     */
+    Boolean refund(Long orderId);
 }

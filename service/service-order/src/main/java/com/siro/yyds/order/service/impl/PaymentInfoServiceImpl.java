@@ -112,4 +112,18 @@ public class PaymentInfoServiceImpl extends ServiceImpl<PaymentInfoMapper, Payme
             throw new YydsException(result.getString("message"), ResultCodeEnum.FAIL.getCode());
         }
     }
+
+    /**
+     * 获取支付记录
+     * @param orderId
+     * @param paymentType
+     * @return
+     */
+    @Override
+    public PaymentInfo getPaymentInfo(Long orderId, Integer paymentType) {
+        QueryWrapper<PaymentInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_id", orderId);
+        queryWrapper.eq("payment_type", paymentType);
+        return baseMapper.selectOne(queryWrapper);
+    }
 }

@@ -18,7 +18,7 @@ import java.util.Date;
  * @author qy
  */
 @Data
-@ApiModel(description = "RefundInfo")
+@ApiModel(description = "退款信息表")
 @TableName("refund_info")
 public class RefundInfo extends BaseEntity {
 	

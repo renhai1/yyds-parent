@@ -43,4 +43,10 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      */
     Map<String,Object> showDetail(Long orderId);
+
+    /**
+     * 取消订单
+     * @param orderId
+     */
+    Boolean cancelOrder(Long orderId);
 }
