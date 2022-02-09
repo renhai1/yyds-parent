@@ -20,9 +20,7 @@ import com.siro.yyds.rabbit.constant.MqConst;
 import com.siro.yyds.rabbit.service.RabbitService;
 import com.siro.yyds.vo.hosp.ScheduleOrderVo;
 import com.siro.yyds.vo.msm.MsmVo;
-import com.siro.yyds.vo.order.OrderMqVo;
-import com.siro.yyds.vo.order.OrderQueryVo;
-import com.siro.yyds.vo.order.SignInfoVo;
+import com.siro.yyds.vo.order.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @author starsea
@@ -332,6 +331,25 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             msmVo.setParam(param);
             rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM_ITEM, msmVo);
         }
+    }
+
+    /**
+     * 订单统计
+     * @param orderCountQueryVo
+     * @return
+     */
+    @Override
+    public Map<String, Object> getCountMap(OrderCountQueryVo orderCountQueryVo) {
+        Map<String, Object> map = new HashMap<>();
+        // 查询预约统计的数据
+        List<OrderCountVo> orderCountVoList = baseMapper.selectOrderCount(orderCountQueryVo);
+        //日期列表
+        List<String> dateList = orderCountVoList.stream().map(OrderCountVo::getReserveDate).collect(Collectors.toList());
+        //统计列表
+        List<Integer> countList = orderCountVoList.stream().map(OrderCountVo::getCount).collect(Collectors.toList());
+        map.put("dateList", dateList);
+        map.put("countList", countList);
+        return map;
     }
 
     // 将数据库中存储的订单状态 改为中文返回前端

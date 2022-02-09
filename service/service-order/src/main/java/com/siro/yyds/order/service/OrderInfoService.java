@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.siro.yyds.model.order.OrderInfo;
+import com.siro.yyds.vo.order.OrderCountQueryVo;
 import com.siro.yyds.vo.order.OrderQueryVo;
 
 import java.util.Map;
@@ -54,4 +55,11 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * 就诊提醒
      */
     void patientTips();
+
+    /**
+     * 订单统计
+     * @param orderCountQueryVo
+     * @return
+     */
+    Map<String, Object> getCountMap(OrderCountQueryVo orderCountQueryVo);
 }

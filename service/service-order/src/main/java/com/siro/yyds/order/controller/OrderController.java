@@ -6,15 +6,15 @@ import com.siro.yyds.common.result.Result;
 import com.siro.yyds.enums.OrderStatusEnum;
 import com.siro.yyds.model.order.OrderInfo;
 import com.siro.yyds.order.service.OrderInfoService;
+import com.siro.yyds.vo.order.OrderCountQueryVo;
 import com.siro.yyds.vo.order.OrderQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author starsea
@@ -66,5 +66,16 @@ public class OrderController {
             @ApiParam(name = "orderId", value = "订单id", required = true)
             @PathVariable Long id) {
         return Result.ok(orderInfoService.showDetail(id));
+    }
+
+    /**
+     * 获取订单统计数据
+     * @param orderCountQueryVo
+     * @return
+     */
+    @ApiOperation(value = "获取订单统计数据")
+    @PostMapping("/inner/getCountMap")
+    public Map<String, Object> getCountMap(@RequestBody OrderCountQueryVo orderCountQueryVo) {
+        return orderInfoService.getCountMap(orderCountQueryVo);
     }
 }

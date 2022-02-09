@@ -1,25 +1,24 @@
-package com.siro.yyds.order;
+package com.siro.yyds.statistics;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author starsea
- * @date 2022-02-06
+ * @date 2022-02-09
  */
-@SpringBootApplication
-@ComponentScan(basePackages = {"com.siro.yyds"})
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)//取消数据源自动配置
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"com.siro.yyds"})
-@MapperScan("com.siro.yyds.order.mapper")
-public class ServiceOrderApplication {
+@ComponentScan(basePackages = {"com.siro.yyds"})
+public class ServiceStatisticsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServiceOrderApplication.class, args);
+        SpringApplication.run(ServiceStatisticsApplication.class, args);
     }
 
 }
