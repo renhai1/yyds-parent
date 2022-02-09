@@ -1,5 +1,6 @@
 package com.siro.yyds.user;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,10 +18,11 @@ import org.springframework.context.annotation.ComponentScan;
  * @author starsea
  * @date 2022-02-03
  */
-@EnableFeignClients(basePackages = "com.siro.yyds")
-@EnableDiscoveryClient
-@ComponentScan(basePackages = "com.siro.yyds")
 @SpringBootApplication
+@ComponentScan(basePackages = "com.siro.yyds")
+@EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.siro.yyds")
+@MapperScan("com.siro.yyds.user.mapper")
 public class ServiceUserApplication {
 
     public static void main(String[] args) {
