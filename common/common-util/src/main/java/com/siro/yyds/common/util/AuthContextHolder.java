@@ -4,13 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 获取当前用户信息工具类
+ *
  * @author starsea
  * @date 2022-02-05
  */
+
+
 public class AuthContextHolder {
 
     /**
      * 获取当前用户id
+     *
      * @param request
      * @return
      */
@@ -24,6 +28,7 @@ public class AuthContextHolder {
 
     /**
      * 获取当前用户名称
+     *
      * @param request
      * @return
      */

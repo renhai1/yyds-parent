@@ -43,6 +43,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     /**
      * 用户手机号验证码登录
+     *
      * @param loginVo
      * @return
      */
@@ -51,21 +52,23 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String phone = loginVo.getPhone();
         String code = loginVo.getCode();
         // 判断手机号和验证码是否为空
-        if(StringUtils.isEmpty(phone) || StringUtils.isEmpty(code)) {
+        if (StringUtils.isEmpty(phone) || StringUtils.isEmpty(code)) {
             throw new YydsException(ResultCodeEnum.PARAM_ERROR);
         }
 
         // TODO 判断手机验证码和输入的验证码是否一致
         String mobleCode = redisTemplate.opsForValue().get(phone);
-        if(!code.equals(mobleCode)) {
+        if (!code.equals(mobleCode)) {
             throw new YydsException(ResultCodeEnum.CODE_ERROR);
         }
 
         //绑定手机号码
         UserInfo userInfo = null;
-        if(!StringUtils.isEmpty(loginVo.getOpenid())) {
+        if (!StringUtils.isEmpty(loginVo.getOpenid())) {
             userInfo = this.getByOpenid(loginVo.getOpenid());
-            if(null != userInfo) {
+            if (null != userInfo) {
+                baseMapper.delete(new QueryWrapper<UserInfo>().eq("phone", loginVo.getPhone()));
+
                 userInfo.setPhone(loginVo.getPhone());
                 this.updateById(userInfo);
             } else {
@@ -74,12 +77,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         }
 
         // 如果userInfo 为空，则进行手机登录
-        if(null == userInfo) {
+        if (null == userInfo) {
             // 判断是否第一次登录，根据手机号查询数据库，如果不存在相同的手机号就是第一次登录
             QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("phone", phone);
             userInfo = baseMapper.selectOne(queryWrapper);
-            if(null == userInfo) {
+            if (null == userInfo) {
                 // 注册信息到数据库
                 userInfo = new UserInfo();
                 userInfo.setName("");
@@ -90,30 +93,31 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         }
 
         // 校验是否被禁用
-        if(userInfo.getStatus() == 0) {
+        if (userInfo.getStatus() == 0) {
             throw new YydsException(ResultCodeEnum.LOGIN_DISABLED_ERROR);
         }
 
         // 返回登录信息
         Map<String, Object> map = new HashMap<>();
         String name = userInfo.getName();
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             name = userInfo.getNickName();
         }
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             name = userInfo.getPhone();
         }
         // 返回登录用户名
         map.put("name", name);
         // TODO 返回token信息，jwt生成token字符串
         String token = JwtHelper.createToken(userInfo.getId(), name);
-        map.put("token",token);
+        map.put("token", token);
 
         return map;
     }
 
     /**
      * 根据微信openid获取用户信息
+     *
      * @param openid
      * @return
      */
@@ -124,6 +128,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     /**
      * 用户认证
+     *
      * @param userId
      * @param userAuthVo
      */
@@ -145,6 +150,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     /**
      * 用户列表（条件查询带分页）
+     *
      * @param pageParam
      * @param userInfoQueryVo
      * @return
@@ -160,19 +166,19 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         // 对条件值进行非空判断
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
-        if(!StringUtils.isEmpty(name)) {
+        if (!StringUtils.isEmpty(name)) {
             wrapper.like("name", name);
         }
-        if(!StringUtils.isEmpty(status)) {
+        if (!StringUtils.isEmpty(status)) {
             wrapper.eq("status", status);
         }
-        if(!StringUtils.isEmpty(authStatus)) {
+        if (!StringUtils.isEmpty(authStatus)) {
             wrapper.eq("auth_status", authStatus);
         }
-        if(!StringUtils.isEmpty(createTimeBegin)) {
+        if (!StringUtils.isEmpty(createTimeBegin)) {
             wrapper.ge("create_time", createTimeBegin);
         }
-        if(!StringUtils.isEmpty(createTimeEnd)) {
+        if (!StringUtils.isEmpty(createTimeEnd)) {
             wrapper.le("create_time", createTimeEnd);
         }
         // 调用mapper的方法
@@ -186,12 +192,13 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     /**
      * 用户锁定
+     *
      * @param userId
      * @param status 0：锁定 1：正常
      */
     @Override
     public void lock(Long userId, Integer status) {
-        if (status.intValue() ==0 || status.intValue() == 1) {
+        if (status.intValue() == 0 || status.intValue() == 1) {
             UserInfo userInfo = baseMapper.selectById(userId);
             userInfo.setStatus(status);
             baseMapper.updateById(userInfo);
@@ -200,15 +207,16 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     /**
      * 详情
+     *
      * @param userId
      * @return
      */
     @Override
     public Map<String, Object> show(Long userId) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         // 根据userid查询用户信息
         UserInfo userInfo = this.packageUserInfo(baseMapper.selectById(userId));
-        map.put("userInfo",userInfo);
+        map.put("userInfo", userInfo);
         // 根据userid查询就诊人信息
         List<Patient> patientList = patientService.findAllUserId(userId);
         map.put("patientList", patientList);
@@ -217,12 +225,13 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     /**
      * 认证审批
+     *
      * @param userId
      * @param authStatus 2：通过 -1：不通过
      */
     @Override
     public void approval(Long userId, Integer authStatus) {
-        if(authStatus.intValue()==2 || authStatus.intValue()==-1) {
+        if (authStatus.intValue() == 2 || authStatus.intValue() == -1) {
             UserInfo userInfo = baseMapper.selectById(userId);
             userInfo.setAuthStatus(authStatus);
             baseMapper.updateById(userInfo);
@@ -232,10 +241,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     // 编号变成对应值封装
     private UserInfo packageUserInfo(UserInfo userInfo) {
         // 处理认证状态编码
-        userInfo.getParam().put("authStatusString",AuthStatusEnum.getStatusNameByStatus(userInfo.getAuthStatus()));
+        userInfo.getParam().put("authStatusString", AuthStatusEnum.getStatusNameByStatus(userInfo.getAuthStatus()));
         // 处理用户状态 0  1
-        String statusString = userInfo.getStatus().intValue()==0 ? "锁定" : "正常";
-        userInfo.getParam().put("statusString",statusString);
+        String statusString = userInfo.getStatus().intValue() == 0 ? "锁定" : "正常";
+        userInfo.getParam().put("statusString", statusString);
         return userInfo;
     }
 }

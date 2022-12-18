@@ -14,7 +14,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/yygh_cmn?characterEncoding=utf-8&useSSL=false
     username: root
-    password: 123456
+    password: dream010923**
   #返回json的全局时间格式
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

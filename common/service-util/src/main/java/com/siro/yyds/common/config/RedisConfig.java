@@ -23,9 +23,9 @@ import java.time.Duration;
 /**
  * Redis配置类
  *
+ * @author starsea
  * @EnableCaching 注释触发后置处理器, 检查每一个Spring bean 的 public 方法是否存在缓存注解。
  * 如果找到这样的一个注释, 自动创建一个代理拦截方法调用和处理相应的缓存行为。
- * @author starsea
  * @date 2022-01-20
  */
 @Configuration
@@ -34,6 +34,7 @@ public class RedisConfig {
 
     /**
      * 自定义key规则
+     *
      * @return
      */
     @Bean
@@ -54,6 +55,7 @@ public class RedisConfig {
 
     /**
      * 设置RedisTemplate规则
+     *
      * @param redisConnectionFactory
      * @return
      */
@@ -83,6 +85,7 @@ public class RedisConfig {
 
     /**
      * 设置CacheManager缓存规则
+     *
      * @param factory
      * @return
      */

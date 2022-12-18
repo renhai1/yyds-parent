@@ -157,8 +157,6 @@ public class WeixinServiceImpl implements WeixinService {
             paramMap.put("transaction_id",paymentInfoQuery.getTradeNo());//微信订单号
             paramMap.put("out_trade_no",paymentInfoQuery.getOutTradeNo());//商户订单编号
             paramMap.put("out_refund_no","tk"+paymentInfoQuery.getOutTradeNo()); //商户退款单号
-            //paramMap.put("total_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
-            //paramMap.put("refund_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
             paramMap.put("total_fee","1");
             paramMap.put("refund_fee","1");
             // 设置调用接口内容
@@ -188,12 +186,5 @@ public class WeixinServiceImpl implements WeixinService {
         return false;
     }
 
-    /*
-    控制台打印日志供参考：
-    resultMap二维码 = {nonce_str=WQTzuErz5jQ9vZN6, code_url=weixin://wxpay/bizpayurl?pr=T6VUdORzz, appid=wx74862e0dfcf69954, sign=5771E813B1CA2DFE3B4A057CEC9B5963, trade_type=NATIVE, return_msg=OK, result_code=SUCCESS, mch_id=1558950191, return_code=SUCCESS, prepay_id=wx08134957030608a66637ead2f3e61d0000}
-    resultMap订单状态 = {nonce_str=E9foLCS2TX086mSH, device_info=, trade_state=NOTPAY, out_trade_no=164429904140946, appid=wx74862e0dfcf69954, total_fee=1, trade_state_desc=订单未支付, sign=A41226A356AD38D55084910D38224C05, return_msg=OK, result_code=SUCCESS, mch_id=1558950191, return_code=SUCCESS}
-    resultMap订单状态 = {nonce_str=3sI61VqBpERj06Zq, device_info=, trade_state=NOTPAY, out_trade_no=164429904140946, appid=wx74862e0dfcf69954, total_fee=1, trade_state_desc=订单未支付, sign=074F563634CCA689D662B6F4D4790C9D, return_msg=OK, result_code=SUCCESS, mch_id=1558950191, return_code=SUCCESS}
-    resultMap订单状态 = {nonce_str=4bnd5P6XIGL2KZWj, device_info=, trade_state=NOTPAY, out_trade_no=164429904140946, appid=wx74862e0dfcf69954, total_fee=1, trade_state_desc=订单未支付, sign=D692453BA0EE3ABF2CA73869C5DF45B5, return_msg=OK, result_code=SUCCESS, mch_id=1558950191, return_code=SUCCESS}
-    resultMap订单状态 = {transaction_id=4200001323202202083379857060, nonce_str=8UzTkRGKQzKcm7Yp, trade_state=SUCCESS, bank_type=OTHERS, openid=oHwsHuFJML39xfpy4armetXTJKnI, sign=30A625B40D8D09F51F9B330FC7B5DFCF, return_msg=OK, fee_type=CNY, mch_id=1558950191, cash_fee=1, out_trade_no=164429904140946, cash_fee_type=CNY, appid=wx74862e0dfcf69954, total_fee=1, trade_state_desc=支付成功, trade_type=NATIVE, result_code=SUCCESS, attach=, time_end=20220208135007, is_subscribe=N, return_code=SUCCESS}
-     */
+
 }

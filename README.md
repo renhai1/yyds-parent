@@ -1,6 +1,6 @@
-﻿﻿﻿## 1、项目介绍
+## 1、项目介绍
 
-尚医通即为网上预约挂号系统，网上预约挂号是近年来开展的一项便民就医服务，旨在缓解看病难、挂号难的就医难题，许多患者为看一次病要跑很多次医院，最终还不一定能保证看得上医生。网上预约挂号全面提供的预约挂号业务从根本上解决了这一就医难题。随时随地轻松挂号！不用排长队！
+医疗通即为网上预约挂号系统，网上预约挂号是近年来开展的一项便民就医服务，旨在缓解看病难、挂号难的就医难题，许多患者为看一次病要跑很多次医院，最终还不一定能保证看得上医生。网上预约挂号全面提供的预约挂号业务从根本上解决了这一就医难题。随时随地轻松挂号！不用排长队！
 
 ## 2、技术点
 
@@ -38,44 +38,17 @@
 
 ## 3、业务流程
 
-![请添加图片描述](https://img-blog.csdnimg.cn/ec865bb9f4e042618246906beb626f22.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pif5rW35bCR5bm0,size_20,color_FFFFFF,t_70,g_se,x_16)
+![image-20221217225008450](C:\Users\86158\AppData\Roaming\Typora\typora-user-images\image-20221217225008450.png)
 
-## 4、项目架构
+## 4、项目源码（包含sql）
 
-![请添加图片描述](https://img-blog.csdnimg.cn/8504d13f2fb24d749cc576e7c7d5127d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pif5rW35bCR5bm0,size_20,color_FFFFFF,t_70,g_se,x_16)
-## 5、项目源码（包含sql）
+gitee 后端地址：
 
-gitee 后端地址：[https://gitee.com/StarSea007/yyds-parent](https://gitee.com/StarSea007/yyds-parent)
+gitee 后台前端地址：
 
-gitee 后台前端地址：[https://gitee.com/StarSea007/yyds-vue-font](https://gitee.com/StarSea007/yyds-vue-font)
+gitee 用户前端地址：
 
-gitee 用户前端地址：[https://gitee.com/StarSea007/yyds-vue-site](https://gitee.com/StarSea007/yyds-vue-site)
-
-
-## 6、启动步骤
-
-1. 项目克隆到本地，导入到idea中
-2. docker，启动mongodb，rabbitmq
-3. nacos, 在目录下，打开bin文件夹，双击`startup.cmd`
-4. redis，在目录下，使用cmd，然后输入 `redis-server redis.windows.conf`
-5. 修改配置文件地址（包含mysql、nacos、redis、mongodb、rabbitmq、短信、微信登录 / 支付），启动前后端项目
-6. 访问地址如下：
-* 模拟医院的管理系统地址：http://localhost:9998/
-* 预约挂号管理端地址：http://localhost:9528/
-* 预约挂号用户端地址：http://localhost:3000/
-* 医院设置后台swagger地址（举例）：http://localhost:8201/swagger-ui.html
-* Rabbitmq访问地址（guest/guest）：http://ip:15672/
-
-
-注意：前期学习阶段使用了nginx, 在目录下，使用cmd，然后输入nginx.exe。
-
-> 说明：
-> 
-> sql文件 在 yyds-parent/sql 文件夹中
-> 
-> 课件及模板 在 yyds-parent/doc 文件夹中
-
-## 7、项目模块说明
+## 5、项目模块说明
 
 **后端项目**：
 ```java
@@ -198,21 +171,4 @@ yyds-vue-site
 
 ### 前端展示端
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/75006c32bbcf49218882400024b27504.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pif5rW35bCR5bm0,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/3bf92a0ec2df46afa7b86cbde23e49a1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pif5rW35bCR5bm0,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/c848a58622b343b2a843283edd53433a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pif5rW35bCR5bm0,size_20,color_FFFFFF,t_70,g_se,x_16)
-
 ### 数据库
-![在这里插入图片描述](https://img-blog.csdnimg.cn/73a6e29a94ef4149bfb7707a0ab91975.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pif5rW35bCR5bm0,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-> 项目如有bug、优化建议，或者更好的处理方式都可以留言评论
->
-> 博客地址：[https://blog.csdn.net/weixin_45606067/article/details/122582995](https://blog.csdn.net/weixin_45606067/article/details/122582995)
->
-> 学习 **谷粒学院** 的小伙伴可以查看：[https://blog.csdn.net/weixin_45606067/category_10427871.html](https://blog.csdn.net/weixin_45606067/category_10427871.html)

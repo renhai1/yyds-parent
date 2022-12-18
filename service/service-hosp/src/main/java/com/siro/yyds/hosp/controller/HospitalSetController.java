@@ -31,6 +31,7 @@ public class HospitalSetController {
 
     /**
      * 查询医院设置表所有信息
+     *
      * @return
      */
     @ApiOperation(value = "查询所有医院设置")
@@ -42,6 +43,7 @@ public class HospitalSetController {
 
     /**
      * 条件查询带分页
+     *
      * @return
      */
     @ApiOperation(value = "条件查询带分页")
@@ -49,15 +51,15 @@ public class HospitalSetController {
     public Result findPageHospSet(@PathVariable("current") long current,
                                   @PathVariable("limit") long limit,
                                   @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo) {
-        Page<HospitalSet> page = new Page<>(current,limit);
+        Page<HospitalSet> page = new Page<>(current, limit);
         QueryWrapper<HospitalSet> wrapper = new QueryWrapper<>();
         String hosname = hospitalSetQueryVo.getHosname();
         String hoscode = hospitalSetQueryVo.getHoscode();
         if (!StringUtils.isEmpty(hosname)) {
-            wrapper.like("hosname",hosname);
+            wrapper.like("hosname", hosname);
         }
         if (!StringUtils.isEmpty(hoscode)) {
-            wrapper.eq("hoscode",hoscode);
+            wrapper.eq("hoscode", hoscode);
         }
         Page<HospitalSet> hospitalSetPage = hospitalSetService.page(page, wrapper);
         return Result.ok(hospitalSetPage);
@@ -65,6 +67,7 @@ public class HospitalSetController {
 
     /**
      * 添加医院设置
+     *
      * @param hospitalSet
      * @return
      */
@@ -86,6 +89,7 @@ public class HospitalSetController {
 
     /**
      * 根据id获取医院设置
+     *
      * @param id
      * @return
      */
@@ -98,6 +102,7 @@ public class HospitalSetController {
 
     /**
      * 修改医院设置
+     *
      * @param hospitalSet
      * @return
      */
@@ -114,6 +119,7 @@ public class HospitalSetController {
 
     /**
      * 逻辑删除医院设置
+     *
      * @return
      */
     @ApiOperation(value = "逻辑删除医院设置")
@@ -129,6 +135,7 @@ public class HospitalSetController {
 
     /**
      * 批量删除医院设置
+     *
      * @param idList
      * @return
      */
@@ -141,6 +148,7 @@ public class HospitalSetController {
 
     /**
      * 医院设置锁定和解锁
+     *
      * @param id
      * @param status
      * @return
@@ -160,6 +168,7 @@ public class HospitalSetController {
 
     /**
      * 发送签名秘钥
+     *
      * @param id
      * @return
      */
@@ -169,7 +178,8 @@ public class HospitalSetController {
         HospitalSet hospitalSet = hospitalSetService.getById(id);
         String signKey = hospitalSet.getSignKey();
         String hoscode = hospitalSet.getHoscode();
-        //TODO 发送短信
+
+        //TODO 发送短信没写完
 
         return Result.ok();
     }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 全局异常处理
+ *
  * @author starsea
  * @date 2022-01-20
  */

@@ -27,6 +27,7 @@ public class MsmServiceImpl implements MsmService {
 
     /**
      * 发送手机号验证码
+     *
      * @param phone
      * @param code
      * @return
@@ -34,7 +35,7 @@ public class MsmServiceImpl implements MsmService {
     @Override
     public boolean send(String phone, String code) {
         //判断手机号是否为空
-        if(StringUtils.isEmpty(phone)) {
+        if (StringUtils.isEmpty(phone)) {
             return false;
         }
         //整合阿里云短信服务
@@ -54,11 +55,11 @@ public class MsmServiceImpl implements MsmService {
         //手机号
         request.putQueryParameter("PhoneNumbers", phone);
         //签名名称
-        request.putQueryParameter("SignName", "我的xmall购物商城");
+        request.putQueryParameter("SignName", "sherry学习网站");
         //模板code
-        request.putQueryParameter("TemplateCode", "SMS_205121391");
+        request.putQueryParameter("TemplateCode", "SMS_263400030");
         //验证码  使用json格式   {"code":"123456"}
-        Map<String,Object> param = new HashMap();
+        Map<String, Object> param = new HashMap();
         param.put("code", code);
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(param));
 
@@ -77,21 +78,22 @@ public class MsmServiceImpl implements MsmService {
 
     /**
      * mq发送短信
+     *
      * @param msmVo
      * @return
      */
     @Override
     public boolean send(MsmVo msmVo) {
-        if(!StringUtils.isEmpty(msmVo.getPhone())) {
+        if (!StringUtils.isEmpty(msmVo.getPhone())) {
             boolean isSend = this.send(msmVo.getPhone(), msmVo.getParam());
             return isSend;
         }
         return false;
     }
 
-    private boolean send(String phone, Map<String,Object> param) {
+    private boolean send(String phone, Map<String, Object> param) {
         //判断手机号是否为空
-        if(StringUtils.isEmpty(phone)) {
+        if (StringUtils.isEmpty(phone)) {
             return false;
         }
         //设置相关参数
@@ -109,9 +111,9 @@ public class MsmServiceImpl implements MsmService {
         //手机号
         request.putQueryParameter("PhoneNumbers", phone);
         //签名名称
-        request.putQueryParameter("SignName", "我的xmall购物商城");
+        request.putQueryParameter("SignName", "sherry学习网站");
         //模板code
-        request.putQueryParameter("TemplateCode", "SMS_205121391");
+        request.putQueryParameter("TemplateCode", "SMS_263400030");
 
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(param));
 

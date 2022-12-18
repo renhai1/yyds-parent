@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * MybatisPlus配置类
+ *
  * @author starsea
  * @date 2022-01-20
  */

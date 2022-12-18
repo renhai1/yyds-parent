@@ -65,12 +65,4 @@ public class JwtHelper {
         Claims claims = claimsJws.getBody();
         return (String)claims.get("userName");
     }
-
-    public static void main(String[] args) {
-        String token = JwtHelper.createToken(1L, "lucy");
-        System.out.println(token);
-        System.out.println(JwtHelper.getUserId(token));
-        System.out.println(JwtHelper.getUserName(token));
-    }
-
 }

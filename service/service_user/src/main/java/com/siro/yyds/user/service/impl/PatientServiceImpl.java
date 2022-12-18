@@ -24,6 +24,7 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
 
     /**
      * 获取就诊人列表
+     *
      * @param userId
      * @return
      */
@@ -31,7 +32,7 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
     public List<Patient> findAllUserId(Long userId) {
         // 根据userid查询所有就诊人信息列表
         QueryWrapper<Patient> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id",userId);
+        wrapper.eq("user_id", userId);
         List<Patient> patientList = baseMapper.selectList(wrapper);
         // 通过远程调用，得到编码对应具体内容，查询数据字典表内容
         patientList.stream().forEach(item -> {
@@ -49,7 +50,7 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
                 dictFeignClient.getName(DictEnum.CERTIFICATES_TYPE.getDictCode(), patient.getCertificatesType());//联系人证件
         // 联系人证件类型
         String contactsCertificatesTypeString =
-                dictFeignClient.getName(DictEnum.CERTIFICATES_TYPE.getDictCode(),patient.getContactsCertificatesType());
+                dictFeignClient.getName(DictEnum.CERTIFICATES_TYPE.getDictCode(), patient.getContactsCertificatesType());
         // 省
         String provinceString = dictFeignClient.getName(patient.getProvinceCode());
         // 市
@@ -67,6 +68,7 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
 
     /**
      * 根据id获取就诊人信息
+     *
      * @param id
      * @return
      */

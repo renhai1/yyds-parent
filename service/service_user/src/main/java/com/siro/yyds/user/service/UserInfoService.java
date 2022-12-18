@@ -15,9 +15,9 @@ import java.util.Map;
  * @date 2022-02-03
  */
 public interface UserInfoService extends IService<UserInfo> {
-
     /**
      * 用户手机号验证码登录
+     *
      * @param loginVo
      * @return
      */
@@ -25,6 +25,7 @@ public interface UserInfoService extends IService<UserInfo> {
 
     /**
      * 根据微信openid获取用户信息
+     *
      * @param openid
      * @return
      */
@@ -32,6 +33,7 @@ public interface UserInfoService extends IService<UserInfo> {
 
     /**
      * 用户认证
+     *
      * @param userId
      * @param userAuthVo
      */
@@ -39,6 +41,7 @@ public interface UserInfoService extends IService<UserInfo> {
 
     /**
      * 用户列表（条件查询带分页）
+     *
      * @param pageParam
      * @param userInfoQueryVo
      * @return
@@ -47,6 +50,7 @@ public interface UserInfoService extends IService<UserInfo> {
 
     /**
      * 用户锁定
+     *
      * @param userId
      * @param status 0：锁定 1：正常
      */
@@ -54,6 +58,7 @@ public interface UserInfoService extends IService<UserInfo> {
 
     /**
      * 详情
+     *
      * @param userId
      * @return
      */
@@ -61,6 +66,7 @@ public interface UserInfoService extends IService<UserInfo> {
 
     /**
      * 认证审批
+     *
      * @param userId
      * @param authStatus 2：通过 -1：不通过
      */
