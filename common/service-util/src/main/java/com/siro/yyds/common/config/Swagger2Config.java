@@ -48,7 +48,7 @@ public class Swagger2Config {
                 .title("网站-API文档")
                 .description("本文档描述了网站微服务接口定义")
                 .version("1.0")
-                .contact(new Contact("starsea", "https://blog.csdn.net/weixin_45606067", "1065510476@qq.com"))
+                .contact(new Contact("starsea", "https://github.com/renhai1", "1457481392@qq.com"))
                 .build();
     }
 
